@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+:root {
+  --secondary-color: #f7f7f7;
+  --warning-color: #d95f24;
+  --warning-complementary-color: #eee095;
+  --success-color: #36a636;
+  --success-complementary-color: #b6e183;
+}
+
+/* Base values */
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+table {
+  width: max-content;
+}
+
+thead {
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+tbody {
+  text-align: center
+}
+
+/* Module values */
+
+.medication {
+  --medication-background-color: var(--secondary-color);
+  --medication-status-color: var(--success-color);
+  --medication-status-complementary-color: var(--success-complementary-color);
+}
+.medication.medication--poor {
+  --medication-status-color: var(--warning-color);
+  --medication-status-complementary-color: var(--warning-complementary-color);
+}
+
+.medication__info {
+  display: flex;
+}
+
+/* Drugs column */
+
+.medication__drugs {
+  display: flex;
+  background-color: var(--medication-status-complementary-color);
+  padding: 0.25rem 1rem;
+}
+
+.medication__drug {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gene info */
+.medication__geneInfo {
+  background-color: var(--medication-background-color);
+}
+
+.medication__geneInfo th {
+  padding: 0.5rem 2rem;
+}
+.medication__geneInfo th:last-child {
+  background-color: var(--medication-status-complementary-color);
+}
+.medication__geneInfo td {
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.medication__gene td:last-child {
+  background-color: var(--medication-status-complementary-color);
+}
+
+.medication__status {
+  background-color: var(--medication-status-color);
+  color: white;
+}
+
+
+/* Medication recommendation */
+
+.medication__recommendation {
+  display: flex;
+  padding: 1rem 2rem;
+  text-align: center;
+  align-items: center;
+  max-width: 72ch;
+}
