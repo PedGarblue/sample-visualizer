@@ -8,7 +8,7 @@
     const container = document.createElement('div');
     container.classList.add('sample');
     container.innerHTML = `
-      <div class="sample__notifications"></div>
+      <div class="sample__medications"></div>
     `;
 
     // add medications data
@@ -28,8 +28,9 @@
     const status = medicationStatuses[data.GroupPhenotype];
     const medicationElementContainer = document.createElement('div');
 
-    // add state class according to element status
     medicationElementContainer.classList.add('medication');
+    // add state classes according to element status
+    medicationElementContainer.classList.add('medication--closed');
     medicationElementContainer.classList.add(`medication--${status}`);
 
     // data parsing
@@ -37,7 +38,7 @@
     const medicationActions = data.Action.join(',');
 
     medicationElementContainer.innerHTML = `
-      <h3>${theraputicArea}</h3>
+      <h3 class="medication__title">${theraputicArea}</h3>
       <div class="medication__info">
         <div class="medication__drugs">
         </div>
@@ -78,7 +79,7 @@
       drugElement.classList.add('medication__drug');
       drugElement.innerHTML = `
         <div>${drugData.Generic}</div>
-        <div>${drugData.Trade}</div>
+        <div>(${drugData.Trade})</div>
       `;
       
       DrugsContainer.insertAdjacentElement('beforeend', drugElement);
@@ -89,10 +90,21 @@
     * We will insert every GeneRow in the begin of the TableBody.
     * Reversing the gene list puts in correct order the table display (ascending).
     */
+    const getPhenotypeStatus = phenotype => {
+      const statuses = {
+        'Normal Metabolizer': 'normal',
+        'Poor Metabolizer': 'poor',
+      };
+      return statuses[phenotype];
+    }
+
     data.GeneInfo.reverse().forEach(geneData => {
       const GeneRow = document.createElement('tr');
+      const status = getPhenotypeStatus(geneData.Phenotype);
       
       GeneRow.classList.add('medication__gene');
+      GeneRow.classList.add(`medication__gene--${status}`);
+
       GeneRow.innerHTML = `
         <td>${geneData.Gene}</td>
         <td>${geneData.Genotype}</td>
@@ -102,20 +114,23 @@
       GeneTableBody.insertAdjacentElement('afterbegin', GeneRow);
     })
 
-    // should toogle medication info when Drug column is clicked
-    const GeneInfoContainer = medicationElementContainer.getElementsByClassName('medication__geneInfo')[0];
-    const RecommendationContainer = medicationElementContainer.getElementsByClassName('medication__recommendation')[0];
+    /* 
+      * GeneInfo, Recommendation, and Title are hidden by default
+      * they should appear when DrugsContainer is clicked
+    */
 
-    // GeneInfo and Recommendation are hidden by default
-    GeneInfoContainer.style.visibility = 'hidden';
-    RecommendationContainer.style.visibility = 'hidden';
+    const toogleContainerStatus = () => {
+      if(medicationElementContainer.classList.contains('medication--closed')){
+        medicationElementContainer.classList.remove('medication--closed');
+        medicationElementContainer.classList.add('medication--open');
+      } else {
+        medicationElementContainer.classList.remove('medication--open');
+        medicationElementContainer.classList.add('medication--closed');
+      }
+    }
 
     DrugsContainer.addEventListener('click', () => {
-      const toggleElementVisibility = element => {
-        element.style.visibility = element.style.visibility === 'hidden' ? 'visible' : 'hidden';
-      };
-      toggleElementVisibility(GeneInfoContainer);
-      toggleElementVisibility(RecommendationContainer);
+      toogleContainerStatus();
     });
 
     return medicationElementContainer;

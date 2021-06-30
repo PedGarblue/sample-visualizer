@@ -4,8 +4,10 @@
   --secondary-color: #f7f7f7;
   --warning-color: #d95f24;
   --warning-complementary-color: #eee095;
+  --warning-font-color: #c82828;
   --success-color: #36a636;
   --success-complementary-color: #b6e183;
+  --success-font-color: #127712;
 }
 
 /* Base values */
@@ -20,7 +22,6 @@ table {
 
 thead {
   text-align: center;
-  font-size: 0.85rem;
 }
 
 tbody {
@@ -30,13 +31,22 @@ tbody {
 /* Module values */
 
 .medication {
+  /* success color by default */
   --medication-background-color: var(--secondary-color);
   --medication-status-color: var(--success-color);
   --medication-status-complementary-color: var(--success-complementary-color);
+  margin: 1rem 1rem;
 }
 .medication.medication--poor {
   --medication-status-color: var(--warning-color);
   --medication-status-complementary-color: var(--warning-complementary-color);
+}
+
+.medication__title {
+  margin: 0;
+  padding: 0.5rem;
+  background-color: #ececec;
+  color: #1c1c1c;
 }
 
 .medication__info {
@@ -47,8 +57,9 @@ tbody {
 
 .medication__drugs {
   display: flex;
+  padding: 0.25rem 2rem;
   background-color: var(--medication-status-complementary-color);
-  padding: 0.25rem 1rem;
+  cursor: pointer;
 }
 
 .medication__drug {
@@ -56,6 +67,9 @@ tbody {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.medication__drug div:first-child {
+  font-weight: bold;
 }
 
 /* Gene info */
@@ -74,8 +88,19 @@ tbody {
   text-align: center;
 }
 
+.medication__gene {
+  font-size: 0.9em;
+}
 .medication__gene td:last-child {
   background-color: var(--medication-status-complementary-color);
+  font-weight: bold;
+}
+
+.medication__gene--normal td:last-child {
+  color: var(--success-font-color);
+}
+.medication__gene--poor td:last-child {
+  color: var(--warning-font-color);
 }
 
 .medication__status {
@@ -89,7 +114,27 @@ tbody {
 .medication__recommendation {
   display: flex;
   padding: 1rem 2rem;
-  text-align: center;
   align-items: center;
-  max-width: 72ch;
+  text-align: center;
+  background-color: var(--medication-background-color);
+}
+
+/* transition for toggled elements */
+
+.medication__title,
+.medication__geneInfo,
+.medication__recommendation {
+  transition: all 0.1222s ease-in-out;
+}
+
+.medication--closed .medication__title,
+.medication--closed .medication__geneInfo,
+.medication--closed .medication__recommendation {
+  opacity: 0;
+}
+
+.medication--open .medication__title,
+.medication--open .medication__geneInfo,
+.medication--open .medication__recommendation {
+  opacity: 1;
 }

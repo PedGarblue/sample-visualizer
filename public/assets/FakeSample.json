@@ -51,7 +51,7 @@
 			],
 			"GroupPhenotype":"Normal Response",
 			"Action":["GO"],
-			"Recommendation":"Patients with this genotype are expected to have a Poor response to Tylenol. Physicians should follow FDA label recommendations."
+			"Recommendation":"Patients with this genotype are expected to have a Normal response to Tylenol. Physicians should follow FDA label recommendations."
 		}
 	]
 }
